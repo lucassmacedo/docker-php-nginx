@@ -1,13 +1,13 @@
 version: '2'
 services:
   php:
-    container_name: test-php
-    image: php:fpm-alpine
+    container_name: docker-php
+    image: php:7.0-fpm
     build: .
     volumes:
       - ..:/var/www/html/site
   nginx:
-    container_name: test-nginx
+    container_name: docker-nginx
     image: nginx:latest
     volumes:
       - ..:/var/www/html/site

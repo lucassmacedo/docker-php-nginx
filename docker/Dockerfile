@@ -1,15 +1,7 @@
-FROM php:fpm-alpine
+FROM php:7.0-fpm
 
-RUN set -ex \
-  && apk --no-cache add \
-    postgresql-dev
-
-
-RUN docker-php-ext-install pdo pdo_pgsql pdo_mysql
-
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-COPY php.ini /usr/local/etc/php/
-
-WORKDIR /var/www/html/site/
-ONBUILD RUN composer update
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends  libpq-dev libpq5 \
+    && docker-php-ext-install pdo_pgsql pdo_mysql \
+    && apt-get purge -y --auto-remove libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
